@@ -12,6 +12,12 @@ build/
 *.log
 
 # --------------------
+# Environment Variables
+# --------------------
+.env
+.env.*
+
+# --------------------
 # System Files
 # --------------------
 .DS_Store
