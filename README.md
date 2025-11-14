@@ -40,7 +40,6 @@ This platform modernizes the process by introducing **online reservations**, **m
 ---
 
 ## 🌗 UI Highlights
-- Responsive **light/dark mode** toggle (🌞 / 🌙)  
 - Accordion-style proposal sections for clean layout  
 - Gradient purple–bordeaux theme for professional branding  
 
