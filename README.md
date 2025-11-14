@@ -1,7 +1,7 @@
-# 🍽 Restaurant Platform
+# WebsiteRestaurant_API
 
 ## Overview
-The **Restaurant Platform** is a smart web application designed to help restaurant owners manage table reservations, display menus, and automate customer communication.  
+The **WebsiteRestaurant_API** is a backend API for the Restaurant Website, handling reservations, menu data, contact messages, and admin operations.
 Built with **HTML, CSS, and JavaScript**, it provides both a **customer-friendly booking interface** and a **business management dashboard**.
 
 ---
