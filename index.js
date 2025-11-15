@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 
 const resolvePath = (...segments) => path.join(__dirname, ...segments);
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 
