@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Clean Prisma model, mapped onto existing "reservations" table
+model Reservation {
+  id              Int      @id @default(autoincrement())
+  name            String   @db.VarChar(100)
+  email           String   @db.VarChar(150)
+
+  // These map to reservation_date and reservation_time columns in MySQL
+  reservationDate DateTime @map("reservation_date") @db.Date
+  reservationTime DateTime @map("reservation_time") @db.Time(0)
+
+  adults          Int      @default(0)
+  children        Int      @default(0)
+
+  // optional, can be null
+  specialRemarks  String?  @map("special_remarks") @db.VarChar(500)
+
+  createdAt       DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  // This tells Prisma the DB table name is "reservations"
+  @@map("reservations")
+}
