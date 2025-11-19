@@ -4,7 +4,11 @@ import prisma from "../prismaClient.js";
 const router = Router();
 
 const toReservationDTO = (reservation) => ({
-  id: reservation.id,
+  id: (() => {
+    if (typeof reservation.id === "number") return reservation.id;
+    const numericId = Number(reservation.id);
+    return Number.isNaN(numericId) ? reservation.id : numericId;
+  })(),
   name: reservation.name,
   email: reservation.email,
   date: reservation.reservationDate
@@ -20,6 +24,18 @@ const toReservationDTO = (reservation) => ({
 });
 
 console.log("✅ reservations router file loaded");
+
+const parseReservationId = (rawId) => {
+  if (typeof rawId !== "string") return null;
+
+  const trimmed = rawId.trim();
+  if (trimmed.length === 0 || !/^\d+$/.test(trimmed)) {
+    return null;
+  }
+
+  const parsed = Number.parseInt(trimmed, 10);
+  return Number.isSafeInteger(parsed) ? parsed : null;
+};
 
 // GET /api/reservations -> all reservations
 router.get("/", async (req, res) => {
@@ -38,8 +54,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   console.log("🔎 /api/reservations/:id hit with", req.params);
 
-  const id = Number(req.params.id);
-  if (!Number.isInteger(id)) {
+  const id = parseReservationId(req.params.id);
+  if (id === null) {
     return res.status(400).json({ error: "Invalid reservation id" });
   }
 
