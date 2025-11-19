@@ -8,16 +8,15 @@ const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const resolvePath = (...segments) => path.join(__dirname, ...segments);
 
 app.use(cors());
 app.use(express.json());
 
-// mount API router
+// 1) API ROUTES FIRST
 app.use("/api/reservations", reservationsRouter);
 
-// static / proposal stuff (unchanged)
+// 2) STATIC FILES AFTER
 app.use(express.static(__dirname));
 app.use("/Proposal", express.static(resolvePath("Proposal")));
 
