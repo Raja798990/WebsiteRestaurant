@@ -38,19 +38,23 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   console.log("🔎 /api/reservations/:id hit with", req.params);
 
-  const id = Number(req.params.id);
+  const rawId = typeof req.params.id === "string" ? req.params.id.trim() : "";
+  const id = Number.parseInt(rawId, 10);
   if (!Number.isInteger(id)) {
     return res.status(400).json({ error: "Invalid reservation id" });
   }
 
   try {
-    const reservation = await prisma.reservation.findUnique({
+    const reservation = await prisma.reservation.findFirst({
       where: { id },
     });
 
     if (!reservation) {
       console.warn(`Reservation ${id} not found`);
-      return res.status(404).json({ error: "Reservation not found" });
+      return res.status(404).json({
+        error: "Reservation not found",
+        details: "Verify the reservation id exists in the database",
+      });
     }
 
     res.json(toReservationDTO(reservation));
