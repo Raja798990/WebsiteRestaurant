@@ -1,21 +1,14 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
-// NOTE: In production, you should use bcrypt for password hashing
-// import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 
 const router = Router();
 
-// Helper to hash password (simplified - use bcrypt in production!)
-const hashPassword = (password) => {
-  // TODO: Replace with bcrypt.hashSync(password, 10)
-  return Buffer.from(password).toString("base64");
-};
+// Helper to hash password
+const hashPassword = async (password) => bcrypt.hash(password, 10);
 
 // Helper to verify password
-const verifyPassword = (password, hash) => {
-  // TODO: Replace with bcrypt.compareSync(password, hash)
-  return Buffer.from(password).toString("base64") === hash;
-};
+const verifyPassword = async (password, hash) => bcrypt.compare(password, hash);
 
 // GET /api/admins - Get all admins (superadmin only)
 router.get("/", async (req, res) => {
@@ -84,11 +77,13 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "An admin with this email already exists" });
     }
 
+    const hashedPassword = await hashPassword(password);
+
     const admin = await prisma.admin.create({
       data: {
         name,
         email: email.toLowerCase(),
-        password: hashPassword(password),
+        password: hashedPassword,
         role: role ?? "admin",
       },
       select: {
@@ -111,15 +106,21 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { name, email, role } = req.body;
+    const { name, email, role, password } = req.body;
+
+    const data = {
+      name,
+      email: email ? email.toLowerCase() : undefined,
+      role,
+    };
+
+    if (password) {
+      data.password = await hashPassword(password);
+    }
 
     const admin = await prisma.admin.update({
       where: { id },
-      data: {
-        name,
-        email: email ? email.toLowerCase() : undefined,
-        role,
-      },
+      data,
       select: {
         id: true,
         name: true,
@@ -154,14 +155,16 @@ router.put("/:id/password", async (req, res) => {
     }
 
     // Verify current password
-    if (!verifyPassword(currentPassword, admin.password)) {
+    const isValidPassword = await verifyPassword(currentPassword, admin.password);
+
+    if (!isValidPassword) {
       return res.status(401).json({ error: "Current password is incorrect" });
     }
 
     // Update password
     await prisma.admin.update({
       where: { id },
-      data: { password: hashPassword(newPassword) },
+      data: { password: await hashPassword(newPassword) },
     });
 
     res.json({ success: true, message: "Password updated successfully" });
@@ -198,7 +201,9 @@ router.post("/login", async (req, res) => {
       where: { email: email.toLowerCase() },
     });
 
-    if (!admin || !verifyPassword(password, admin.password)) {
+    const isValidPassword = admin && (await verifyPassword(password, admin.password));
+
+    if (!admin || !isValidPassword) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 

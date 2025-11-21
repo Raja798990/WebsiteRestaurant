@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Raja798990/RestaurantWebsite#readme",
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
