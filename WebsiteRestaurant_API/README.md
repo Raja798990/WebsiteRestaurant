@@ -1,70 +1,79 @@
-# WebsiteRestaurant_API
+# WebsiteRestaurant API
 
-## Overview
-The **WebsiteRestaurant_API** is a backend API for the Restaurant Website, handling reservations, menu data, contact messages, and admin operations.
-Built with **HTML, CSS, and JavaScript**, it provides both a **customer-friendly booking interface** and a **business management dashboard**.
+RESTful API backend for the Restaurant Management Platform.
 
----
+> See the [main README](../README.md) for complete documentation including all endpoints, request/response examples, and setup instructions.
 
-## 🎯 Objective
-Many small and medium-sized restaurants still rely on phone-based or manual bookings, often leading to confusion, double reservations, and missed opportunities.  
-This platform modernizes the process by introducing **online reservations**, **menu uploads**, and **automated email or WhatsApp confirmations** through **n8n automation**.
+## Quick Start
 
----
+```bash
+# Install dependencies
+npm install
 
-## 🧑‍💻 Key Features
+# Configure environment
+cp .env.example .env
+# Edit .env with your database credentials
 
-### 👤 Customer Side
-- **Account Creation & Login (OAuth optional):** Secure customer registration and login.  
-- **Table Reservation Form:** Booking limited to opening hours (Tue–Sun 12–3 PM & 6–10 PM; Closed Monday).  
-- **Automatic Email Confirmation (n8n):** Sends confirmation after booking or admin approval.  
-- **Booking History:** View all current and past reservations with status (Pending / Confirmed / Declined).  
-- **Public Access Pages:** Menu display (PDF or structured), photo gallery, Instagram link, and contact info.
+# Setup database
+npx prisma generate
+npx prisma db push
 
-### 🧑‍🍳 Admin / Business Side
-- **Reservation Management (CRUD):** Admin can approve, reject, or delete reservations.  
-- **Booking Analytics:** Displays reservation counts and guest totals using simple histogram visualization.  
-- **Menu Upload:** Upload or replace menu PDF files monthly or weekly.  
-- **Business Info Editor:** Easily update opening hours, address, or contact info.  
-- **Automation via n8n:** Sends daily summaries and broadcasts new menus to customers automatically.
+# Seed sample data (optional)
+npm run seed
 
----
+# Start server
+npm run dev
+```
 
-## ⚙️ Technologies Used
-- **Frontend:** HTML5, CSS3, Vanilla JavaScript  
-- **Backend (future upgrade):** Node.js / Express.js  
-- **Database (planned):** MySQL  
-- **Automation:** n8n workflows for email and WhatsApp messaging  
-- **Version Control:** Git & GitHub  
+Server runs at `http://localhost:3000`
 
----
+## Environment Variables
 
-## 🌗 UI Highlights
-- Accordion-style proposal sections for clean layout  
-- Gradient purple–bordeaux theme for professional branding  
+Create a `.env` file:
 
----
+```env
+DATABASE_URL="mysql://user:password@localhost:3306/restaurant_db"
+JWT_SECRET="your-secure-secret-key"
+PORT=3000
+```
 
-## 🧩 Future Improvements
-- Add online payment option for special bookings
-- Integrate AI chat widget for real-time table confirmation
-- Enable multiple restaurant management under one admin
+## API Routes
 
----
+| Resource | Base Path | Description |
+|----------|-----------|-------------|
+| Admins | `/api/admins` | Authentication & user management |
+| Dashboard | `/api/dashboard` | Analytics & metrics (protected) |
+| Reservations | `/api/reservations` | Table bookings |
+| Menu | `/api/menu` | Categories & items |
+| Wines | `/api/wines` | Wine catalog |
+| Specials | `/api/specials` | Daily specials |
+| Requests | `/api/requests` | Contact forms & bans |
 
-## 📬 Postman collection
-Use the provided Postman assets in `postman/` to exercise every public and admin-protected endpoint:
+## Default Admin (after seeding)
 
-1. Import `postman/WebsiteRestaurant_API.postman_collection.json` into Postman.
-2. Import `postman/WebsiteRestaurant_API.postman_environment.json` and select it so `{{baseUrl}}` and `{{adminToken}}` resolve to your local server and session token.
-3. Update the `adminEmail` and `adminPassword` variables to match a valid admin account, then run the **Login (set adminToken)** request. The attached test script stores the returned JWT in `{{adminToken}}` for all subsequent protected calls.
-4. Run public requests (menu, wines, specials, reservation creation, contact request) without authentication, and admin-only requests (dashboard, reservations, admin CRUD, banned customers) with the Bearer token automatically injected from the environment.
+- **Email:** `admin@nabucco.com`
+- **Password:** `admin123`
 
-These files serve as living documentation of payloads and headers, and give you a quick sanity-check suite for verifying responses as the API evolves.
+## Scripts
 
----
+```bash
+npm start      # Production server
+npm run dev    # Development with auto-reload
+npm run seed   # Seed sample data
+```
 
-## 👤 Author
-**Gurdeep Gursimransingh**
-Thomas More University – Data Science, Protection & Security (DSPS)
-📍 Belgium
+## Postman Collection
+
+Import the files from `postman/` directory for complete API testing:
+
+1. `WebsiteRestaurant_API.postman_collection.json` - All endpoints
+2. `WebsiteRestaurant_API.postman_environment.json` - Environment variables
+
+Run the "Login" request first to auto-populate the auth token.
+
+## Tech Stack
+
+- Node.js + Express.js 5.1
+- Prisma ORM + MySQL
+- JWT Authentication
+- bcrypt Password Hashing
