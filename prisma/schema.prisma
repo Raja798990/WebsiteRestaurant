@@ -1,30 +1,35 @@
-generator client {
-  provider = "prisma-client-js"
+// ==================== WINES - UPDATED STRUCTURE ====================
+
+model WineCategory {
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(50) // "House Wines", "White Wines", "Rosé Wines", "Red Wines"
+  nameEn String @db.VarChar(50) // "house", "white", "rose", "red"
+  order Int    @default(0)
+  wines Wine[]
+
+  @@map("wine_categories")
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
+model Wine {
+  id          Int          @id @default(autoincrement())
+  categoryId  Int          @map("category_id")
+  name        String       @db.VarChar(200)
+  country     String?      @db.VarChar(50) // Italy, France, Spain, null for house wines
+  
+  // House wines have these prices
+  glassPrice   Decimal?    @map("glass_price") @db.Decimal(5, 2)      // Vin au verre
+  pitcher25cl  Decimal?    @map("pitcher_25cl") @db.Decimal(5, 2)     // Pichet 1/4l
+  pitcher50cl  Decimal?    @map("pitcher_50cl") @db.Decimal(5, 2)     // Pichet 1/2l
+  pitcher1l    Decimal?    @map("pitcher_1l") @db.Decimal(5, 2)       // Pichet 1l
+  
+  // Premium wines have these prices
+  halfBottle   Decimal?    @map("half_bottle") @db.Decimal(5, 2)      // 37.5cl (0.5cl column in menu)
+  fullBottle   Decimal?    @map("full_bottle") @db.Decimal(5, 2)      // 75cl (1cl column in menu)
+  
+  available    Boolean     @default(true)
+  createdAt    DateTime    @map("created_at") @default(now()) @db.DateTime(0)
 
-// Clean Prisma model, mapped onto existing "reservations" table
-model Reservation {
-  id              Int      @id @default(autoincrement())
-  name            String   @db.VarChar(100)
-  email           String   @db.VarChar(150)
+  category     WineCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-  // These map to reservation_date and reservation_time columns in MySQL
-  reservationDate DateTime @map("reservation_date") @db.Date
-  reservationTime DateTime @map("reservation_time") @db.Time(0)
-
-  adults          Int      @default(0)
-  children        Int      @default(0)
-
-  // optional, can be null
-  specialRemarks  String?  @map("special_remarks") @db.VarChar(500)
-
-  createdAt       DateTime @map("created_at") @default(now()) @db.DateTime(0)
-
-  // This tells Prisma the DB table name is "reservations"
-  @@map("reservations")
+  @@map("wines")
 }
