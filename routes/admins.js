@@ -1,6 +1,7 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
 import bcrypt from "bcrypt";
+import { generateAdminToken, requireAuth, requireRole } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -10,8 +11,49 @@ const hashPassword = async (password) => bcrypt.hash(password, 10);
 // Helper to verify password
 const verifyPassword = async (password, hash) => bcrypt.compare(password, hash);
 
+// POST /api/admins/login - Admin login
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "email and password are required" });
+    }
+
+    const admin = await prisma.admin.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    const isValidPassword = admin && (await verifyPassword(password, admin.password));
+
+    if (!admin || !isValidPassword) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    const token = generateAdminToken(admin);
+
+    res.json({
+      success: true,
+      message: "Login successful",
+      data: {
+        id: admin.id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role,
+        token,
+      },
+    });
+  } catch (err) {
+    console.error("Error during login:", err);
+    res.status(500).json({ error: "Login failed" });
+  }
+});
+
+// Protect all subsequent admin routes
+router.use(requireAuth);
+
 // GET /api/admins - Get all admins (superadmin only)
-router.get("/", async (req, res) => {
+router.get("/", requireRole("superadmin"), async (req, res) => {
   try {
     const admins = await prisma.admin.findMany({
       orderBy: { createdAt: "desc" },
@@ -60,7 +102,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /api/admins - Create new admin (superadmin only)
-router.post("/", async (req, res) => {
+router.post("/", requireRole("superadmin"), async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
@@ -108,6 +150,11 @@ router.put("/:id", async (req, res) => {
     const id = parseInt(req.params.id);
     const { name, email, role, password } = req.body;
 
+    const isSelf = req.user?.id === id;
+    if (!isSelf && req.user?.role !== "superadmin") {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     const data = {
       name,
       email: email ? email.toLowerCase() : undefined,
@@ -143,6 +190,11 @@ router.put("/:id/password", async (req, res) => {
     const id = parseInt(req.params.id);
     const { currentPassword, newPassword } = req.body;
 
+    const isSelf = req.user?.id === id;
+    if (!isSelf && req.user?.role !== "superadmin") {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ error: "currentPassword and newPassword are required" });
     }
@@ -175,7 +227,7 @@ router.put("/:id/password", async (req, res) => {
 });
 
 // DELETE /api/admins/:id - Delete admin (superadmin only)
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireRole("superadmin"), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
 
@@ -185,43 +237,6 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     console.error("Error deleting admin:", err);
     res.status(500).json({ error: "Failed to delete admin" });
-  }
-});
-
-// POST /api/admins/login - Admin login
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: "email and password are required" });
-    }
-
-    const admin = await prisma.admin.findUnique({
-      where: { email: email.toLowerCase() },
-    });
-
-    const isValidPassword = admin && (await verifyPassword(password, admin.password));
-
-    if (!admin || !isValidPassword) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-
-    // In production, generate a JWT token here
-    res.json({
-      success: true,
-      message: "Login successful",
-      data: {
-        id: admin.id,
-        name: admin.name,
-        email: admin.email,
-        role: admin.role,
-        // token: generateJWT(admin) - add later
-      },
-    });
-  } catch (err) {
-    console.error("Error during login:", err);
-    res.status(500).json({ error: "Login failed" });
   }
 });
 
