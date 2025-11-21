@@ -1,7 +1,10 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
+
+router.use(requireAuth);
 
 // GET /api/dashboard - Get dashboard overview data
 router.get("/", async (req, res) => {
