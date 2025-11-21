@@ -11,6 +11,7 @@ import winesRouter from "./routes/wines.js";
 import specialsRouter from "./routes/specials.js";
 import requestsRouter from "./routes/requests.js";
 import adminsRouter from "./routes/admins.js";
+import dashboardRouter from "./routes/dashboard.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 
 // ==================== API ROUTES ====================
+app.use("/api/dashboard", dashboardRouter);
 app.use("/api/reservations", reservationsRouter);
 app.use("/api/menu", menuRouter);
 app.use("/api/wines", winesRouter);
@@ -59,6 +61,9 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
   console.log(`📋 API endpoints:`);
+  console.log(`   GET  /api/dashboard`);
+  console.log(`   GET  /api/dashboard/stats`);
+  console.log(`   GET  /api/dashboard/weekly-reservations`);
   console.log(`   GET  /api/reservations`);
   console.log(`   GET  /api/menu`);
   console.log(`   GET  /api/wines`);
