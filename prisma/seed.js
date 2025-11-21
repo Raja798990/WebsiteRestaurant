@@ -71,23 +71,141 @@ async function main() {
 
   // 4. Create Wine Categories
   const wineCategories = await Promise.all([
-    prisma.wineCategory.create({ data: { name: "Vins Rouges", order: 1 } }),
-    prisma.wineCategory.create({ data: { name: "Vins Blancs", order: 2 } }),
-    prisma.wineCategory.create({ data: { name: "Vins Rosés", order: 3 } }),
-    prisma.wineCategory.create({ data: { name: "Vins de la Maison", order: 4 } }),
-  ]);
-  console.log(`✅ Created ${wineCategories.length} wine categories`);
+    prisma.wineCategory.create({ 
+        data: { name: "La sélection maison", nameEn: "house", order: 1 } 
+    }),
+    prisma.wineCategory.create({ 
+        data: { name: "Les vins blancs", nameEn: "white", order: 2 } 
+    }),
+    prisma.wineCategory.create({ 
+        data: { name: "Les vins rosés", nameEn: "rose", order: 3 } 
+    }),
+    prisma.wineCategory.create({ 
+        data: { name: "Les vins rouges", nameEn: "red", order: 4 } 
+    }),
+]);
+
 
   // 5. Create Sample Wines
   await prisma.wine.createMany({
     data: [
-      { categoryId: wineCategories[0].id, name: "Château Bordeaux", glassPrice: 5.5, bottlePrice: 28.0 },
-      { categoryId: wineCategories[0].id, name: "Côtes du Rhône", glassPrice: 4.5, bottlePrice: 22.0 },
-      { categoryId: wineCategories[1].id, name: "Chardonnay", glassPrice: 5.0, bottlePrice: 25.0 },
-      { categoryId: wineCategories[1].id, name: "Pinot Grigio", glassPrice: 4.8, bottlePrice: 23.0 },
-      { categoryId: wineCategories[2].id, name: "Provence Rosé", glassPrice: 5.2, bottlePrice: 26.0 },
-      { categoryId: wineCategories[3].id, name: "Maison Rouge", glassPrice: 3.5, bottlePrice: 15.0 },
-      { categoryId: wineCategories[3].id, name: "Maison Blanc", glassPrice: 3.5, bottlePrice: 15.0 },
+        // House Wine
+        {
+        categoryId: wineCategories[0].id,
+        name: "Cuvée Selectionnée «Il Nabucco» en blanc, rouge et rosé",
+        country: null,
+        glassPrice: 4.00,
+        pitcher25cl: 7.00,
+        pitcher50cl: 12.00,
+        pitcher1l: 22.00,
+        halfBottle: null,
+        fullBottle: null,
+        },
+
+        // White Wines - Italy
+        {
+        categoryId: wineCategories[1].id,
+        name: "Vermentino della Puglia - Vecchia Torre - 2020",
+        country: "Italie",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: null,
+        fullBottle: 21.00,
+        },
+        {
+        categoryId: wineCategories[1].id,
+        name: "Remole IGT - Frescobaldi - Toscana - 2019",
+        country: "Italie",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: null,
+        fullBottle: 24.00,
+        },
+        {
+        categoryId: wineCategories[1].id,
+        name: "Albizzia IGT - Chardonnay - Frescobaldi - 2020",
+        country: "Italie",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: null,
+        fullBottle: 24.00,
+        },
+
+        // White Wines - France
+        {
+        categoryId: wineCategories[1].id,
+        name: "Pinot Gris des chasseurs de Lune - Alsace - 2019",
+        country: "France",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: 15.00,
+        fullBottle: 25.00,
+        },
+        {
+        categoryId: wineCategories[1].id,
+        name: "Sancerre «Le Chant du Merle» - Loire - 2020",
+        country: "France",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: 18.00,
+        fullBottle: 35.00,
+        },
+        {
+        categoryId: wineCategories[1].id,
+        name: "Chablis - 2020",
+        country: "France",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: null,
+        fullBottle: 33.00,
+        },
+
+        // Rosé Wines
+        {
+        categoryId: wineCategories[2].id,
+        name: "Pinot noir - Alsace rosé - Domaine Fernand Engel - 2020",
+        country: "France",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: 16.50,
+        fullBottle: 26.00,
+        },
+        {
+        categoryId: wineCategories[2].id,
+        name: "L'estandon - Rosé de provence - 2020",
+        country: "France",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: null,
+        fullBottle: 24.00,
+        },
+        {
+        categoryId: wineCategories[2].id,
+        name: "Sancerre « Le Chant du Merle» - 2020",
+        country: "France",
+        glassPrice: null,
+        pitcher25cl: null,
+        pitcher50cl: null,
+        pitcher1l: null,
+        halfBottle: 18.00,
+        fullBottle: 35.00,
+        },
     ],
   });
   console.log("✅ Created sample wines");
