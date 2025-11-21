@@ -66,8 +66,9 @@ app.listen(PORT, () => {
   console.log(`   GET  /api/dashboard/weekly-reservations`);
   console.log(`   GET  /api/reservations`);
   console.log(`   GET  /api/menu`);
-  console.log(`   GET  /api/wines`);
-  console.log(`   GET  /api/specials`);
-  console.log(`   POST /api/requests`);
-  console.log(`   GET  /api/admins (protected)`);
+console.log(`   GET  /api/wines`);
+console.log(`   GET  /api/specials`);
+console.log(`   POST /api/requests`);
+console.log(`   GET  /api/admins (protected)`);
+  console.log(`   (All /api routes require an authenticated admin token)`);
 });

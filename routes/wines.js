@@ -1,7 +1,11 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import authenticateAdmin from "../middleware/auth.js";
 
 const router = Router();
+
+// Restrict wine routes to authenticated admins
+router.use(authenticateAdmin);
 
 // Transform wine data for API response
 const transformWine = (wine) => {

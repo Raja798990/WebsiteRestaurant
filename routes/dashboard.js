@@ -1,7 +1,11 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import authenticateAdmin from "../middleware/auth.js";
 
 const router = Router();
+
+// Protect all dashboard routes
+router.use(authenticateAdmin);
 
 // GET /api/dashboard - Get dashboard overview data
 router.get("/", async (req, res) => {

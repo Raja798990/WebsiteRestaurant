@@ -1,7 +1,11 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import authenticateAdmin from "../middleware/auth.js";
 
 const router = Router();
+
+// Require admin authentication for reservation management
+router.use(authenticateAdmin);
 
 // DTO transformer
 const toReservationDTO = (r) => ({
@@ -92,7 +96,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /api/reservations - Create reservation (public)
+// POST /api/reservations - Create reservation (admin-managed)
 router.post("/", async (req, res) => {
   try {
     const { name, email, date, time, adults, children, specialRemarks } = req.body;

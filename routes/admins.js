@@ -1,9 +1,13 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import authenticateAdmin from "../middleware/auth.js";
 // NOTE: In production, you should use bcrypt for password hashing
 // import bcrypt from "bcrypt";
 
 const router = Router();
+
+// Restrict admin management routes to authenticated admins
+router.use(authenticateAdmin);
 
 // Helper to hash password (simplified - use bcrypt in production!)
 const hashPassword = (password) => {

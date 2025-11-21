@@ -30,6 +30,14 @@ This platform modernizes the process by introducing **online reservations**, **m
 
 ---
 
+## 🔐 Admin authentication
+
+- All `/api/*` routes are protected with an HMAC-validated JWT bearer token.
+- Set an `ADMIN_JWT_SECRET` environment variable on the server to enable verification.
+- Include an `Authorization: Bearer <token>` header whose payload contains `{ "role": "admin" }`.
+
+---
+
 ## ⚙️ Technologies Used
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript  
 - **Backend (future upgrade):** Node.js / Express.js  

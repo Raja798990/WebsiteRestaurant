@@ -1,7 +1,11 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import authenticateAdmin from "../middleware/auth.js";
 
 const router = Router();
+
+// Guard specials routes with admin authentication
+router.use(authenticateAdmin);
 
 // GET /api/specials - Get all specials (public)
 router.get("/", async (req, res) => {

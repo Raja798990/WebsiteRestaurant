@@ -1,7 +1,11 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import authenticateAdmin from "../middleware/auth.js";
 
 const router = Router();
+
+// Enforce admin authentication for request management
+router.use(authenticateAdmin);
 
 // GET /api/requests - Get all contact requests (admin)
 router.get("/", async (req, res) => {
@@ -49,7 +53,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// POST /api/requests - Create contact request (public - from contact form)
+// POST /api/requests - Create contact request (admin-managed)
 router.post("/", async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;

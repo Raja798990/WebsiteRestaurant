@@ -1,7 +1,11 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import authenticateAdmin from "../middleware/auth.js";
 
 const router = Router();
+
+// Protect menu routes for admins only
+router.use(authenticateAdmin);
 
 // GET /api/menu - Get all categories with their items
 router.get("/", async (req, res) => {
