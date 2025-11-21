@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine List - Restaurant</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-text">Restaurant</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="menu.html" class="nav-link">Menu</a></li>
+                <li><a href="wines.html" class="nav-link active">Wines</a></li>
+                <li><a href="specials.html" class="nav-link">Specials</a></li>
+                <li><a href="reservations.html" class="nav-link">Reservations</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1920');">
+        <div class="container">
+            <h1>Wine List</h1>
+            <p>Carefully selected wines to complement your meal</p>
+        </div>
+    </header>
+
+    <!-- Wine List Content -->
+    <section class="section">
+        <div class="container">
+            <div id="wine-list">
+                <div class="loading">Loading wine list...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Restaurant</h3>
+                    <p>Fine dining at its best</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hours</h3>
+                    <p>Monday - Friday: 11:00 - 22:00</p>
+                    <p>Saturday - Sunday: 10:00 - 23:00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>123 Restaurant Street</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Restaurant. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadWineList();
+        });
+    </script>
+</body>
+</html>

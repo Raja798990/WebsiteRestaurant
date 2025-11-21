@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant - Fine Dining Experience</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">Restaurant</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="pages/menu.html" class="nav-link">Menu</a></li>
+                <li><a href="pages/wines.html" class="nav-link">Wines</a></li>
+                <li><a href="pages/specials.html" class="nav-link">Specials</a></li>
+                <li><a href="pages/reservations.html" class="nav-link">Reservations</a></li>
+                <li><a href="pages/contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Our Restaurant</h1>
+            <p class="hero-subtitle">Experience the finest cuisine in an elegant atmosphere</p>
+            <a href="pages/reservations.html" class="btn btn-primary">Reserve a Table</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="section about">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to our restaurant, where culinary excellence meets warm hospitality. Our passionate chefs craft each dish with the finest ingredients, bringing you an unforgettable dining experience.</p>
+                    <p>From our signature dishes to our carefully curated wine selection, every detail is designed to delight your senses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Menu Section -->
+    <section class="section menu-preview">
+        <div class="container">
+            <h2 class="section-title">Our Menu</h2>
+            <p class="section-subtitle">Discover our culinary creations</p>
+            <div class="menu-categories" id="menu-categories">
+                <!-- Categories will be loaded dynamically -->
+                <div class="loading">Loading menu...</div>
+            </div>
+            <a href="pages/menu.html" class="btn btn-secondary">View Full Menu</a>
+        </div>
+    </section>
+
+    <!-- Specials Section -->
+    <section class="section specials-preview">
+        <div class="container">
+            <h2 class="section-title">Today's Specials</h2>
+            <div class="specials-grid" id="specials-grid">
+                <!-- Specials will be loaded dynamically -->
+                <div class="loading">Loading specials...</div>
+            </div>
+            <a href="pages/specials.html" class="btn btn-secondary">View All Specials</a>
+        </div>
+    </section>
+
+    <!-- Reservation CTA -->
+    <section class="section reservation-cta">
+        <div class="container">
+            <h2>Reserve Your Table</h2>
+            <p>Join us for an exceptional dining experience</p>
+            <a href="pages/reservations.html" class="btn btn-primary">Make a Reservation</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Restaurant</h3>
+                    <p>Fine dining at its best</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hours</h3>
+                    <p>Monday - Friday: 11:00 - 22:00</p>
+                    <p>Saturday - Sunday: 10:00 - 23:00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>123 Restaurant Street</p>
+                    <p>Phone: (555) 123-4567</p>
+                    <p>Email: info@restaurant.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="pages/menu.html">Menu</a></li>
+                        <li><a href="pages/reservations.html">Reservations</a></li>
+                        <li><a href="pages/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Restaurant. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
