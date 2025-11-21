@@ -1,5 +1,6 @@
 import { Router } from "express";
 import prisma from "../prismaClient.js";
+import { requireAuth, requireRole } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -35,8 +36,11 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Protect admin menu routes
+router.use(requireAuth);
+
 // GET /api/menu/categories - Get all categories (admin)
-router.get("/categories", async (req, res) => {
+router.get("/categories", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const categories = await prisma.menuCategory.findMany({
       orderBy: { order: "asc" },
@@ -49,7 +53,7 @@ router.get("/categories", async (req, res) => {
 });
 
 // POST /api/menu/categories - Create category (admin)
-router.post("/categories", async (req, res) => {
+router.post("/categories", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const { name, order, note } = req.body;
 
@@ -69,7 +73,7 @@ router.post("/categories", async (req, res) => {
 });
 
 // PUT /api/menu/categories/:id - Update category (admin)
-router.put("/categories/:id", async (req, res) => {
+router.put("/categories/:id", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const { name, order, note } = req.body;
@@ -87,7 +91,7 @@ router.put("/categories/:id", async (req, res) => {
 });
 
 // DELETE /api/menu/categories/:id - Delete category (admin)
-router.delete("/categories/:id", async (req, res) => {
+router.delete("/categories/:id", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
 
@@ -101,7 +105,7 @@ router.delete("/categories/:id", async (req, res) => {
 });
 
 // GET /api/menu/items - Get all items (admin)
-router.get("/items", async (req, res) => {
+router.get("/items", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const items = await prisma.menuItem.findMany({
       include: { category: true },
@@ -123,7 +127,7 @@ router.get("/items", async (req, res) => {
 });
 
 // POST /api/menu/items - Create menu item (admin)
-router.post("/items", async (req, res) => {
+router.post("/items", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const { categoryId, name, price } = req.body;
 
@@ -147,7 +151,7 @@ router.post("/items", async (req, res) => {
 });
 
 // PUT /api/menu/items/:id - Update menu item (admin)
-router.put("/items/:id", async (req, res) => {
+router.put("/items/:id", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const { categoryId, name, price, available } = req.body;
@@ -170,7 +174,7 @@ router.put("/items/:id", async (req, res) => {
 });
 
 // DELETE /api/menu/items/:id - Delete menu item (admin)
-router.delete("/items/:id", async (req, res) => {
+router.delete("/items/:id", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const id = parseInt(req.params.id);
 
