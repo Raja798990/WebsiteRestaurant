@@ -1,0 +1,35 @@
+{
+  "name": "websiterestaurant_api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "The Restaurant Platform is a smart web application designed to help restaurant owners manage table reservations, display menus, and automate customer communication. Built with HTML, CSS, and JavaScript, it provides both a customer-friendly booking interface and a business management dashboard.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "seed": "node prisma/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raja798990/RestaurantWebsite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raja798990/RestaurantWebsite/issues"
+  },
+  "homepage": "https://github.com/Raja798990/RestaurantWebsite#readme",
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.0"
+  }
+}

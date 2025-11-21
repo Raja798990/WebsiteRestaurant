@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proposals – Gurdeep Gursimransingh</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #faf9fb;
+      color: #1f1d1f;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      position: relative;
+      background: linear-gradient(135deg, #6b21a8, #7e0c28);
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      transition: background 0.4s ease;
+    }
+
+    header h1 {
+      font-size: 2.4em;
+      margin: 0;
+      display: inline-block;
+    }
+
+    header span {
+      font-weight: 400;
+      font-size: 0.95em;
+      margin-left: 10px;
+      color: #e2e8f0;
+    }
+
+    /* Day/Night icon */
+    .theme-icon {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 1.8em;
+      cursor: pointer;
+      transition: transform 0.6s ease, opacity 0.4s ease;
+      user-select: none;
+    }
+
+    .theme-icon:hover {
+      transform: rotate(25deg) scale(1.1);
+    }
+
+    .proposal-btn {
+      display: block;
+      width: 70%;
+      max-width: 600px;
+      margin: 20px auto;
+      background: linear-gradient(90deg, #7e22ce, #9d174d);
+      color: #fff;
+      border: none;
+      padding: 14px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 500;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .proposal-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #9333ea, #db2777);
+    }
+
+    section {
+      max-width: 900px;
+      background: #fff;
+      margin: 20px auto 40px;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+
+    h2 {
+      color: #6b21a8;
+      border-bottom: 2px solid #9d174d;
+      padding-bottom: 4px;
+    }
+
+    h3 {
+      color: #3b0764;
+      margin-top: 25px;
+    }
+
+    ul {
+      list-style-type: "• ";
+      margin-left: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: linear-gradient(90deg, #6b21a8, #7e0c28, #6b21a8);
+      background-size: 300% 300%;
+      color: #fff;
+      border-top: 3px solid #9d174d;
+      animation: gradientMove 8s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Dark Mode */
+    body.dark {
+      background: #1a1a22;
+      color: #eee;
+    }
+
+    body.dark header {
+      background: linear-gradient(135deg, #4b0082, #5b0a1e);
+    }
+
+    body.dark section {
+      background: #2b2b3a;
+      color: #f4f4f4;
+      box-shadow: 0 3px 15px rgba(255,255,255,0.05);
+    }
+
+    body.dark h2 {
+      color: #d8b4fe;
+      border-bottom: 2px solid #f472b6;
+    }
+
+    body.dark h3 { color: #c084fc; }
+
+    body.dark footer {
+      background: linear-gradient(90deg, #4b0082, #5b0a1e, #4b0082);
+      color: #f5f5f5;
+    }
+
+    body.dark .proposal-btn {
+      background: linear-gradient(90deg, #9333ea, #db2777);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Proposals <span>– Gurdeep Gursimransingh</span></h1>
+    <div id="theme-icon" class="theme-icon" onclick="toggleTheme()">🌞</div>
+  </header>
+
+  <!-- Buttons -->
+  <button class="proposal-btn" onclick="toggleSection('restaurant')">🍽 Restaurant Platform</button>
+  <button class="proposal-btn" onclick="toggleSection('insurance')">💼 Insurance Risk Calculator Platform</button>
+
+  <!-- ===== RESTAURANT PROPOSAL ===== -->
+  <section id="restaurant">
+    <h2>Restaurant Platform</h2>
+
+    <h3>One-liner</h3>
+    <p>A smart restaurant web application where customers can log in and reserve tables online within fixed hours, while the owner manages bookings, uploads menus, and communicates automatically through email and WhatsApp notifications.</p>
+
+    <h3>Problem & Target Audience</h3>
+    <p>Many restaurants still rely on manual or phone-based reservations, which causes confusion, double bookings, and missed opportunities. This platform introduces a streamlined reservation system with automated communication and analytics. It targets small and medium-sized restaurant owners who want a professional online presence and customers who prefer digital booking.</p>
+
+    <h3>Core Features (MVP)</h3>
+
+    <h4>👤 User Side (Customer Portal)</h4>
+    <ul>
+      <li><strong>Account Creation & Login (OAuth optional):</strong> Customers must log in to make a reservation.</li>
+      <li><strong>Reservation Form with Validation:</strong> Booking restricted to open hours (Tuesday–Sunday 12–3 PM & 6–10 PM; Closed Monday).</li>
+      <li><strong>Email Confirmation (n8n):</strong> Automatic confirmation after booking or approval.</li>
+      <li><strong>Booking History:</strong> View all current and past reservations with statuses (Pending / Confirmed / Declined).</li>
+      <li><strong>Public Pages:</strong> Access current menu (PDF or structured), photos, Instagram link, and contact info.</li>
+    </ul>
+
+    <h4>🧑‍💼 Admin Side (Owner Dashboard)</h4>
+    <ul>
+      <li><strong>Reservation Management (CRUD):</strong> View, approve, decline, or delete reservations.</li>
+      <li><strong>Booking Analytics:</strong> Histogram of total reservations and guests per day or month.</li>
+      <li><strong>Menu Upload:</strong> Upload or replace PDF menu and monthly suggestions easily.</li>
+      <li><strong>Contact & Hours Display:</strong> Editable restaurant hours, address, and contact info visible on the website.</li>
+      <li><strong>Automation (n8n):</strong> Sends email confirmations, WhatsApp summaries, and broadcasts new menu uploads to all customers.</li>
+    </ul>
+  </section>
+
+  <!-- ===== INSURANCE PROPOSAL ===== -->
+  <section id="insurance">
+    <h2>Insurance Risk Calculator Platform</h2>
+
+    <h3>One-liner</h3>
+    <p>A web-based insurance platform that calculates personalized risk scores for clients based on age, income, health habits, and other data, helping insurers determine fair premiums and risk categories.</p>
+
+    <h3>Problem & Target Audience</h3>
+    <p>Insurance companies often rely on manual assessments and outdated tools for risk analysis, leading to inefficiencies and human bias. This project automates risk evaluation through a modern web dashboard where users can enter their data and receive instant insights. It targets both insurance professionals and clients looking for transparency in risk assessment.</p>
+
+    <h3>Core Features (MVP)</h3>
+
+    <h4>👤 User Side (Client Portal)</h4>
+    <ul>
+      <li><strong>Account Creation & Secure Login:</strong> Users register to input financial and personal data safely.</li>
+      <li><strong>Risk Calculator:</strong> Calculates a dynamic risk score based on input (age, health, lifestyle, income, etc.).</li>
+      <li><strong>Dashboard Visualization:</strong> Displays personalized risk breakdown and premium estimate.</li>
+      <li><strong>Reports:</strong> Users can export risk summaries as PDF or receive them via email.</li>
+    </ul>
+
+    <h4>🧑‍💼 Admin Side (Insurer Dashboard)</h4>
+    <ul>
+      <li><strong>Client Management (CRUD):</strong> Add, edit, or delete client data with full access control.</li>
+      <li><strong>Adjustable Risk Parameters:</strong> Admin can modify weights for each factor (age, health, income) to fine-tune scoring.</li>
+      <li><strong>Analytics Panel:</strong> View aggregate risk trends by demographic or region.</li>
+      <li><strong>Automation (n8n):</strong> Sends weekly or monthly reports to the insurer’s email and alerts clients if their risk score changes significantly.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>© 2025 Gurdeep Gursimransingh | Project Proposals</p>
+  </footer>
+
+  <script>
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      const isVisible = section.style.display === "block";
+      document.querySelectorAll('section').forEach(sec => sec.style.display = "none");
+      section.style.display = isVisible ? "none" : "block";
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const icon = document.getElementById('theme-icon');
+      icon.style.opacity = '0';
+      setTimeout(() => {
+        icon.textContent = document.body.classList.contains('dark') ? '🌙' : '🌞';
+        icon.style.opacity = '1';
+        icon.style.transform = 'rotate(360deg)';
+      }, 200);
+      setTimeout(() => {
+        icon.style.transform = 'rotate(0deg)';
+      }, 600);
+    }
+  </script>
+
+</body>
+</html>

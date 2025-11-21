@@ -1,0 +1,49 @@
+# --------------------
+# Node & Dependencies
+# --------------------
+node_modules/
+
+# --------------------
+# Build / Cache Files
+# --------------------
+dist/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --------------------
+# Environment Variables
+# --------------------
+.env
+.env.*
+!.env.example
+
+# --------------------
+# Prisma
+# --------------------
+prisma/migrations/
+generated/
+*.db-journal
+
+# --------------------
+# System Files
+# --------------------
+.DS_Store
+Thumbs.db
+
+# --------------------
+# Editor / IDE Settings
+# --------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --------------------
+# Temporary / Backup Files
+# --------------------
+*.tmp
+*.bak
+*.old
