@@ -1,3 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== RESERVATIONS ====================
+model Reservation {
+  id              Int      @id @default(autoincrement())
+  name            String   @db.VarChar(100)
+  email           String   @db.VarChar(150)
+  reservationDate DateTime @map("reservation_date") @db.Date
+  reservationTime DateTime @map("reservation_time") @db.Time(0)
+  adults          Int      @default(1)
+  children        Int      @default(0)
+  specialRemarks  String?  @map("special_remarks") @db.VarChar(500)
+  status          String   @default("pending") @db.VarChar(20) // pending, confirmed, declined, cancelled
+  createdAt       DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  @@map("reservations")
+}
+
+// ==================== MENU ====================
+model MenuCategory {
+  id    Int        @id @default(autoincrement())
+  name  String     @db.VarChar(100)
+  order Int        @default(0) // for sorting categories
+  note  String?    @db.VarChar(255) // e.g., "Sauce au choix: ..."
+  items MenuItem[]
+
+  @@map("menu_categories")
+}
+
+model MenuItem {
+  id         Int          @id @default(autoincrement())
+  categoryId Int          @map("category_id")
+  name       String       @db.VarChar(150)
+  price      Decimal      @db.Decimal(6, 2)
+  available  Boolean      @default(true)
+  createdAt  DateTime     @map("created_at") @default(now()) @db.DateTime(0)
+
+  category   MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@map("menu_items")
+}
+
 // ==================== WINES - UPDATED STRUCTURE ====================
 
 model WineCategory {
@@ -32,4 +81,74 @@ model Wine {
   category     WineCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@map("wines")
+}
+
+// ==================== SPECIALS ====================
+// Type A: Entrée + plat combos (two prices)
+model SpecialCombo {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(150)
+  entreePrice Decimal  @map("entree_price") @db.Decimal(5, 2)
+  fullPrice   Decimal  @map("full_price") @db.Decimal(6, 2)
+  available   Boolean  @default(true)
+  createdAt   DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  @@map("special_combos")
+}
+
+// Type B: Single-price main dishes
+model SpecialMain {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(150)
+  price     Decimal  @db.Decimal(6, 2)
+  available Boolean  @default(true)
+  createdAt DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  @@map("special_mains")
+}
+
+// Type C: Custom flexible items
+model SpecialCustom {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(150)
+  description String?  @db.VarChar(255)
+  price       Decimal  @db.Decimal(6, 2)
+  available   Boolean  @default(true)
+  createdAt   DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  @@map("special_customs")
+}
+
+// ==================== CONTACT REQUESTS ====================
+model Request {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  email     String   @db.VarChar(150)
+  phone     String?  @db.VarChar(20)
+  message   String   @db.Text
+  createdAt DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  @@map("requests")
+}
+
+// ==================== BANNED CUSTOMERS ====================
+model BannedCustomer {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(150)
+  reason    String?  @db.VarChar(255)
+  createdAt DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  @@map("banned_customers")
+}
+
+// ==================== ADMIN USERS ====================
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(150)
+  password  String   @db.VarChar(255) // hashed password
+  role      String   @default("admin") @db.VarChar(20) // admin, superadmin
+  createdAt DateTime @map("created_at") @default(now()) @db.DateTime(0)
+
+  @@map("admins")
 }

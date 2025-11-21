@@ -9,9 +9,6 @@
     "dev": "nodemon index.js",
     "seed": "node prisma/seed.js"
   },
-  "prisma": {
-    "seed": "node prisma/seed.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Raja798990/RestaurantWebsite.git"
