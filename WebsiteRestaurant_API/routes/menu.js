@@ -40,7 +40,7 @@ router.get("/", async (req, res) => {
 router.use(requireAuth);
 
 // GET /api/menu/categories - Get all categories (admin)
-router.get("/categories", async (req, res) => {
+router.get("/categories", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const categories = await prisma.menuCategory.findMany({
       orderBy: { order: "asc" },
@@ -105,7 +105,7 @@ router.delete("/categories/:id", requireRole("admin", "superadmin"), async (req,
 });
 
 // GET /api/menu/items - Get all items (admin)
-router.get("/items", async (req, res) => {
+router.get("/items", requireRole("admin", "superadmin"), async (req, res) => {
   try {
     const items = await prisma.menuItem.findMany({
       include: { category: true },
