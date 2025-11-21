@@ -46,13 +46,25 @@ This platform modernizes the process by introducing **online reservations**, **m
 ---
 
 ## 🧩 Future Improvements
-- Add online payment option for special bookings  
-- Integrate AI chat widget for real-time table confirmation  
-- Enable multiple restaurant management under one admin  
+- Add online payment option for special bookings
+- Integrate AI chat widget for real-time table confirmation
+- Enable multiple restaurant management under one admin
+
+---
+
+## 📬 Postman collection
+Use the provided Postman assets in `postman/` to exercise every public and admin-protected endpoint:
+
+1. Import `postman/WebsiteRestaurant_API.postman_collection.json` into Postman.
+2. Import `postman/WebsiteRestaurant_API.postman_environment.json` and select it so `{{baseUrl}}` and `{{adminToken}}` resolve to your local server and session token.
+3. Update the `adminEmail` and `adminPassword` variables to match a valid admin account, then run the **Login (set adminToken)** request. The attached test script stores the returned JWT in `{{adminToken}}` for all subsequent protected calls.
+4. Run public requests (menu, wines, specials, reservation creation, contact request) without authentication, and admin-only requests (dashboard, reservations, admin CRUD, banned customers) with the Bearer token automatically injected from the environment.
+
+These files serve as living documentation of payloads and headers, and give you a quick sanity-check suite for verifying responses as the API evolves.
 
 ---
 
 ## 👤 Author
-**Gurdeep Gursimransingh**  
-Thomas More University – Data Science, Protection & Security (DSPS)  
-📍 Belgium  
+**Gurdeep Gursimransingh**
+Thomas More University – Data Science, Protection & Security (DSPS)
+📍 Belgium
