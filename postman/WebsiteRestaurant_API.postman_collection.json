@@ -1,0 +1,333 @@
+{
+  "info": {
+    "name": "WebsiteRestaurant API",
+    "description": "Requests for the WebsiteRestaurant API covering public and admin-protected endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Get menu",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/menu",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "menu"]
+            }
+          }
+        },
+        {
+          "name": "Get wines",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/wines",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "wines"]
+            }
+          }
+        },
+        {
+          "name": "Get specials",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/specials",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "specials"]
+            }
+          }
+        },
+        {
+          "name": "Create reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"date\": \"2024-12-24\",\n  \"time\": \"19:30\",\n  \"adults\": 2,\n  \"children\": 1,\n  \"specialRemarks\": \"Window seat please\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reservations"]
+            }
+          }
+        },
+        {
+          "name": "Submit contact request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"phone\": \"+3212345678\",\n  \"message\": \"We would like to book a birthday dinner.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "requests"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Login (set adminToken)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const token = json.data?.token || json.token;",
+                  "if (token) {",
+                  "  pm.environment.set('adminToken', token);",
+                  "}",
+                  "pm.test('Received token', function () {",
+                  "  pm.expect(token).to.be.ok;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"changeme\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admins/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admins", "login"]
+            }
+          }
+        },
+        {
+          "name": "Dashboard overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Dashboard stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Dashboard weekly reservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/weekly-reservations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "weekly-reservations"]
+            }
+          }
+        },
+        {
+          "name": "List reservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations?status=pending",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reservations"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update reservation status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reservations/1/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reservations", "1", "status"]
+            }
+          }
+        },
+        {
+          "name": "Get admin list",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admins",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admins"]
+            }
+          }
+        },
+        {
+          "name": "Create admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Admin\",\n  \"email\": \"new.admin@example.com\",\n  \"password\": \"StrongPassword123\",\n  \"role\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admins",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admins"]
+            }
+          }
+        },
+        {
+          "name": "Update admin password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"changeme\",\n  \"newPassword\": \"NewSecret123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admins/1/password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admins", "1", "password"]
+            }
+          }
+        },
+        {
+          "name": "List contact requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "requests"]
+            }
+          }
+        },
+        {
+          "name": "List banned customers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/requests/banned/list",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "requests", "banned", "list"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
